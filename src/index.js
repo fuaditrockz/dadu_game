@@ -5,10 +5,10 @@ const printQuestions = async () => {
   const getDices = await cli.createQuestion('How many dices you will play?', 'Dice')
   
   if (!getDices || !getPlayers) {
-    console.log('Please answer all question correctly.')
+    cli.print('Please answer all question correctly.')
     printQuestions()
   } else {
-    console.log(getPlayers + ' ' + getDices)
+    cli.print(getPlayers + ' ' + getDices)
     cli.close()
   }
 }
