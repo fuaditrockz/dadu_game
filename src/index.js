@@ -1,4 +1,10 @@
 const cli = require('./modules/cli')
+const Table = require('cli-table3');
+
+var table = new Table({
+  head: ['No.', 'Players Name']
+, colWidths: [5, 20]
+});
 
 let totalPlayers
 let totalDices
@@ -22,7 +28,9 @@ const printQuestions = async () => {
 const insertPlayerName = async () => {
   const playerName = await cli.createQuestion('Player Name', `Please insert players username`)
   players.push(playerName)
-  players.length < totalPlayers && insertPlayerName()
+  const playerIndexPosition = players.indexOf(playerName)
+  table.push([playerIndexPosition + 1, playerName])
+  players.length < totalPlayers ? insertPlayerName() : console.log(table.toString())
 }
 
 const dadu_game = async () => {
