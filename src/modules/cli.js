@@ -11,10 +11,6 @@ const rlInterface = readline.createInterface({
   terminal: false
 })
 
-const print = wording => {
-  console.log(wording)
-}
-
 const createQuestion = (question, reference) => {
   const questionPromise = () => new Promise((resolve, reject) => {
     rlInterface.question(questionColor(`> ${question} -> `), answer => {
@@ -26,9 +22,9 @@ const createQuestion = (question, reference) => {
   return questionPromise()
     .then(result => result)
     .catch(err => {
-      print(errorColor(`(!) Answer of ${reference} not found: ${err}`))
-      print(errorColor(`    Please fill with number and not alphabet`))
-      print('---------------------------------------------')
+      console.log(errorColor(`(!) Answer of ${reference} not found: ${err}`))
+      console.log(errorColor(`    Please fill with number and not alphabet`))
+      console.log('---------------------------------------------')
     })
 }
 
@@ -38,8 +34,7 @@ const close = () => {
 
 const cli = {
   createQuestion,
-  close,
-  print
+  close
 }
 
 module.exports = cli
