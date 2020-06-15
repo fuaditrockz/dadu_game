@@ -11,11 +11,17 @@ const rlInterface = readline.createInterface({
   terminal: false
 })
 
-const createQuestion = (question, reference) => {
+const createQuestion = (reference, question) => {
   const questionPromise = () => new Promise((resolve, reject) => {
     rlInterface.question(questionColor(`> ${question} -> `), answer => {
-      const answerToInt = parseInt(answer)
-      !answer || isNaN(answerToInt) ? reject() : resolve(answer)
+      if (reference === 'Player' || reference === 'Dice') {
+        const answerToInt = parseInt(answer)
+        !answer || isNaN(answerToInt) ? reject() : resolve(answer)
+      }
+      if (reference === 'Player Name') {
+        !answer ? reject() : resolve(answer)
+      }
+      reject('Dont have any reference.')
     })
   })
 
@@ -24,7 +30,6 @@ const createQuestion = (question, reference) => {
     .catch(err => {
       console.log(errorColor(`(!) Answer of ${reference} not found: ${err}`))
       console.log(errorColor(`    Please fill with number and not alphabet`))
-      console.log('---------------------------------------------')
     })
 }
 
