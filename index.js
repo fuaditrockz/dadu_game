@@ -13,5 +13,5 @@ const server = http.createServer((req, res) => {
 // Running the server on localhost:3000
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`)
-  dadu_game
+  dadu_game()
 })
