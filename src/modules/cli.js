@@ -18,9 +18,8 @@ const createQuestion = (reference, question) => {
         const answerToInt = parseInt(answer)
         !answer || isNaN(answerToInt) ? reject() : resolve(answer)
       }
-      if (reference === 'Player Name') {
-        !answer ? reject() : resolve(answer)
-      }
+      if (reference === 'Player Name') !answer ? reject() : resolve(answer)
+      if (reference === 'Action') !answer ? reject() : resolve(answer)
       reject('Dont have any reference.')
     })
   })

@@ -1,14 +1,16 @@
+const Table = require('cli-table3')
 const cli = require('./modules/cli')
-const Table = require('cli-table3');
+const gameplay = require('./modules/gameplay')
 
 var table = new Table({
-  head: ['No.', 'Players Name']
+  head: ['No.', 'Players Name', 'Dice Number', 'Point']
 , colWidths: [5, 20]
 });
 
 let totalPlayers
 let totalDices
 let players = []
+let status = 'starter'
 
 const printQuestions = async () => {
   const getPlayers = await cli.createQuestion('Player', 'How many players will be play?')
@@ -25,17 +27,51 @@ const printQuestions = async () => {
   }
 }
 
-const insertPlayerName = async () => {
+const insertPlayerNameAndPlayTheGame = async () => {
   const playerName = await cli.createQuestion('Player Name', `Please insert players username`)
   players.push(playerName)
   const playerIndexPosition = players.indexOf(playerName)
-  table.push([playerIndexPosition + 1, playerName])
-  players.length < totalPlayers ? insertPlayerName() : console.log(table.toString())
+  table.push([playerIndexPosition + 1, playerName, null, 0])
+  players.length < totalPlayers ? insertPlayerNameAndPlayTheGame() : runningGamePlay()
+}
+
+const runningGamePlay = async () => {
+  let input
+  switch (status) {
+    case 'starter':
+      await gameplay.printPlayerList(table.toString())
+      input = await cli.createQuestion('Action', `Type 'roll' to roll the dice`)
+      if (input === 'roll') {
+        status = 'rolled'
+        runningGamePlay()
+      } else {
+        status = 'typo'
+        runningGamePlay()
+      }
+      break;
+    case 'typo':
+      input = await cli.createQuestion('Action', `You're typo, please type 'roll' to roll the dice`)
+      if (input === 'roll') {
+        status = 'rolled'
+        runningGamePlay()
+      } else {
+        status = 'typo'
+        runningGamePlay()
+      }
+      break;
+    case 'rolled':
+      await cli.createQuestion('Action', `You have rolled the dice`)
+      status = 'rolled'
+      runningGamePlay()
+      break;
+    default:
+      break;
+  }
 }
 
 const dadu_game = async () => {
   await printQuestions()
-  await insertPlayerName()
+  await insertPlayerNameAndPlayTheGame()
 }
 
 module.exports = dadu_game
