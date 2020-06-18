@@ -36,8 +36,13 @@ const insertPlayerNameAndPlayTheGame = async () => {
   players.length < totalPlayers ? insertPlayerNameAndPlayTheGame() : runningGamePlay()
 }
 
-const rollTheDices = () => {
-  
+const rollTheDices = async () => {
+  for (let i = 0; i < totalPlayers; i++) {
+    const rolledNumbers = gameplay.getSomePlayerDices(totalDices)
+    dicesResult.push(rolledNumbers)
+  }
+
+  console.log(dicesResult)
 }
 
 const runningGamePlay = async () => {
@@ -65,6 +70,7 @@ const runningGamePlay = async () => {
       }
       break;
     case 'rolled':
+      await rollTheDices()
       await cli.createQuestion('Action', `You have rolled the dice`)
       status = 'rolled'
       runningGamePlay()
