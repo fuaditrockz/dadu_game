@@ -10,6 +10,7 @@ var table = new Table({
 let totalPlayers
 let totalDices
 let players = []
+let dicesResult = []
 let status = 'starter'
 
 const printQuestions = async () => {
@@ -33,6 +34,10 @@ const insertPlayerNameAndPlayTheGame = async () => {
   const playerIndexPosition = players.indexOf(playerName)
   table.push([playerIndexPosition + 1, playerName, null, 0])
   players.length < totalPlayers ? insertPlayerNameAndPlayTheGame() : runningGamePlay()
+}
+
+const rollTheDices = () => {
+  
 }
 
 const runningGamePlay = async () => {
